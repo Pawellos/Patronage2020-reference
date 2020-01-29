@@ -33,12 +33,15 @@ int main(void)
         ssize_t len;
 
         len = read(c, buf, sizeof(buf) - 1);
-        buf[len] = '\0';
 
-        if (sscanf(buf, "%s%s", needle, haystack) == 2) {
-            ptr = strstr(haystack, needle);
-            sprintf(buf, "%ld", ptr ? ptr - haystack : -1L);
-            write(c, buf, strlen(buf));
+        if (len >= 0) {
+            buf[len] = '\0';
+
+            if (sscanf(buf, "%s%s", needle, haystack) == 2) {
+                ptr = strstr(haystack, needle);
+                sprintf(buf, "%ld", ptr ? ptr - haystack : -1L);
+                write(c, buf, strlen(buf));
+            }
         }
 
         close(c);
